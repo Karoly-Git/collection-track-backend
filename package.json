@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "load-track-backend",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,5 @@
     "url": "https://github.com/Karoly-Git/load-track-backend/issues"
   },
   "homepage": "https://github.com/Karoly-Git/load-track-backend#readme",
-  "description": ""
+  "description": "Backend API for the lorry tracking system, managing vehicle check-ins, loading workflows, check-outs, data persistence, and secure access for real-time status visibility."
 }
