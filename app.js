@@ -45,5 +45,6 @@ app.get("/health", (req, res) => res.json({ status: "ok" }));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/", lorryRoutes);
+app.use("/lorries", lorryRoutes);
 
 module.exports = app;
