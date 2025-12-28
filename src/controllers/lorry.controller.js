@@ -108,7 +108,7 @@ const updateLorryStatus = (req, res) => {
     // Reject request if any required fields are missing
     if (missingFields.length) {
         return res.status(400).json({
-            message: `Missing required fields: ${missingFields.join(", ")}`,
+            message: `Missing required fields: '${missingFields.join(", ")}'`,
         });
     }
 
