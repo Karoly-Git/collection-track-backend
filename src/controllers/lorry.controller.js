@@ -46,26 +46,29 @@ const getLorryStatusHistory = (req, res) => {
 };
 
 const addLorry = (req, res) => {
-    const { lorryId, refNum, registration, updatedBy } = req.body;
+    const { refNum, registration, updatedBy } = req.body;
 
-    if (!lorryId || !refNum || !registration) { // todo: need to add if all values are present in teh updatedBy object
+    if (
+        !refNum ||
+        !registration ||
+        !updatedBy?.userId ||
+        !updatedBy?.name ||
+        !updatedBy?.role
+    ) {
         return res.status(400).json({
             message: "Missing required body fields",
         });
     }
 
-    const exists = data.find(el => el.lorryId === lorryId);
+    const lastId = data.length
+        ? parseInt(data[data.length - 1].lorryId, 10) || 0
+        : 0;
 
-    if (exists) {
-        return res.status(409).json({
-            message: `Lorry with id ${lorryId} already exists`,
-        });
-    }
-
+    const newId = String(lastId + 1);
     const timestamp = new Date().toISOString();
 
     const newLorry = {
-        lorryId,
+        lorryId: newId,
         refNum,
         registration,
         checkedInAt: timestamp,
@@ -75,15 +78,13 @@ const addLorry = (req, res) => {
             {
                 status: LORRY_STATUS_ENUM.CHECKED_IN,
                 timestamp,
-                updatedBy
-            }
-        ]
+                updatedBy,
+            },
+        ],
     };
 
-    data.push(newLorry); // this is where it will be saved in the database
-
-    //res.status(201).json(data);
-    res.status(201).json(newLorry);
+    data.push(newLorry);
+    return res.status(201).json(newLorry);
 };
 
 
