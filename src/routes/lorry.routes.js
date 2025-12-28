@@ -26,6 +26,6 @@ router.put("/:id/update-collection-reference-number", updateCollectionRefNum);
 router.put("/:id/update-registration-number", updateRegNum);
 
 // Delete
-router.delete("/:id", deleteLorry);
+router.delete("/:id/delete", deleteLorry);
 
 module.exports = router;

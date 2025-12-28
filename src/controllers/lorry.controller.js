@@ -56,7 +56,7 @@ const addLorry = (req, res) => {
         !updatedBy?.role
     ) {
         return res.status(400).json({
-            message: "Missing required body fields",
+            message: "Missing required body fields", // Need to name which one(s) is (are) missing
         });
     }
 
