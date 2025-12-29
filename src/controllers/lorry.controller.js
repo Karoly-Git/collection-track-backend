@@ -46,15 +46,17 @@ const getLorryStatusHistory = (req, res) => {
 };
 
 const addLorry = (req, res) => {
-    const { collectionRefNum, regNum, updatedBy } = req.body;
+    const { regNum, materialName, customerName, collectionRefNum, updatedBy, comment } = req.body;
 
     const missingFields = [];
 
+    // if (!regNum) missingFields.push("regNum"); // it is commented out because not required
+    if (!materialName) missingFields.push("materialName");
+    if (!customerName) missingFields.push("customerName");
     if (!collectionRefNum) missingFields.push("collectionRefNum");
-    if (!regNum) missingFields.push("regNum");
     if (!updatedBy.userId) missingFields.push("updatedBy.userId");
-    if (!updatedBy.name) missingFields.push("updatedBy.name");
-    if (!updatedBy.role) missingFields.push("updatedBy.role");
+    // if (!comment) missingFields.push("comment"); // it is commented out because not required
+
 
     if (missingFields.length) {
         return res.status(400).json({
@@ -71,8 +73,10 @@ const addLorry = (req, res) => {
 
     const newLorry = {
         lorryId: newId,
+        regNum: regNum || "",
+        materialName,
+        customerName,
         collectionRefNum,
-        regNum,
         checkedInAt: timestamp,
         checkedOutAt: null,
         currentStatus: LORRY_STATUS_ENUM.CHECKED_IN,
@@ -80,7 +84,16 @@ const addLorry = (req, res) => {
             {
                 status: LORRY_STATUS_ENUM.CHECKED_IN,
                 timestamp,
-                updatedBy,
+                updatedBy: { userId: updatedBy.userId },
+                comments: comment
+                    ? [
+                        {
+                            userId: updatedBy.userId,
+                            text: comment,
+                            timestamp,
+                        },
+                    ]
+                    : [],
             },
         ],
     };
