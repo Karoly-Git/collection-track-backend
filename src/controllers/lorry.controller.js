@@ -150,7 +150,7 @@ const updateLorryStatus = (req, res) => {
         lorry.statusHistory.some(el => el.status === status)
     ) {
         return res.status(409).json({
-            message: `Status '${status}' has already been applied to this lorry`,
+            message: `Status '${status}' has already been applied to lorry with id '${id}'`,
         });
     }
 
