@@ -7,7 +7,7 @@ const lorryTrackData = [
         lorryId: "1",
         regNum: "pz65pwo",
         materialName: MATERIAL_NAMES_ENUM.MIXED_PAPER_GR1,
-        customerName: CUSTOMER_NAMES_ENUM.PUTE,
+        customerName: CUSTOMER_NAMES_ENUM.PEUTE,
         collectionRefNum: "vg123sd",
         checkedInAt: "2025-12-27T08:40:00Z",
         checkedOutAt: null,
