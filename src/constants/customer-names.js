@@ -1,5 +1,5 @@
 const CUSTOMER_NAMES_ENUM = {
-    PUTE: "Pute",
+    PEUTE: "Peute",
     MRL: "MRL",
     VOLKER: "Volker",
     UN_GLOBAL: "UN Global",
