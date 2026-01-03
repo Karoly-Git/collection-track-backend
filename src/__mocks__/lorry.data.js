@@ -209,7 +209,27 @@ const lorryTrackData = [
                 ]
             }
         ]
-    }
+    },
+
+    {
+        lorryId: "6",
+        regNum: "pz65pwo",
+        materialName: MATERIAL_NAMES_ENUM.MIXED_PAPER_GR1,
+        customerName: CUSTOMER_NAMES_ENUM.PEUTE,
+        collectionRefNum: "vg123sd",
+        checkedInAt: "2025-12-27T08:40:00Z",
+        checkedOutAt: null,
+        currentStatus: LORRY_STATUSES_ENUM.CHECKED_IN,
+        statusHistory: [
+            {
+                status: LORRY_STATUSES_ENUM.CHECKED_IN,
+                timestamp: "2025-12-27T08:40:00Z",
+                updatedBy: { userId: "u-002" },
+                comments: []
+            }
+        ]
+    },
+
 ];
 
 module.exports = lorryTrackData;
