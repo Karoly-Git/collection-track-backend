@@ -1,13 +1,14 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
 
-const {
+import {
     addComment,
     getAllComments,
     getSingleComment,
     updateComment,
     deleteComment
-} = require("../controllers/comment.controller");
+} from "../controllers/comment.controller.js";
+
+const router = express.Router();
 
 // Create
 router.post("/collection/:collectionId/status/:status", addComment);
@@ -22,6 +23,4 @@ router.patch("/:commentId", updateComment);
 // Delete
 router.delete("/:commentId", deleteComment);
 
-module.exports = router;
-
-
+export default router;

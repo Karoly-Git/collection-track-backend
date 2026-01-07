@@ -1,12 +1,14 @@
-require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
+import dotenv from "dotenv";
+import express from "express";
+import cors from "cors";
 
-const swaggerUi = require("swagger-ui-express");
-const swaggerSpec = require("./swagger");
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from "./swagger.js";
 
-const collectionRoutes = require("./src/routes/collection.routes");
-const commentRoutes = require("./src/routes/comment.routes");
+import collectionRoutes from "./src/routes/collection.routes.js";
+import commentRoutes from "./src/routes/comment.routes.js";
+
+dotenv.config();
 
 const app = express();
 
@@ -50,4 +52,4 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/collections", collectionRoutes);
 app.use("/comments", commentRoutes);
 
-module.exports = app;
+export default app;

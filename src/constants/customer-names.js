@@ -6,4 +6,4 @@ const CUSTOMER_NAMES = {
     URM: "URM"
 };
 
-module.exports = CUSTOMER_NAMES;
+export default CUSTOMER_NAMES;

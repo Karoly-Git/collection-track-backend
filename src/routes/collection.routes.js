@@ -1,7 +1,6 @@
-const express = require("express");
-const router = express.Router();
+import express from "express";
 
-const {
+import {
     addCollection,
     getAllCollections,
     getCollectionById,
@@ -12,7 +11,9 @@ const {
     updateCollectionRefNum,
     updateCollectionStatus,
     deleteCollection
-} = require("../controllers/collection.controller");
+} from "../controllers/collection.controller.js";
+
+const router = express.Router();
 
 // Create collection
 router.post("/", addCollection);
@@ -32,4 +33,4 @@ router.patch("/:collectionId/status", updateCollectionStatus);
 // Delete collection
 router.delete("/:collectionId", deleteCollection);
 
-module.exports = router;
+export default router;

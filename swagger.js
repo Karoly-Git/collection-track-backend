@@ -4,10 +4,10 @@ const options = {
     definition: {
         openapi: "3.0.3",
         info: {
-            title: "Lorry Load Track API",
+            title: "Collection Track API",
             version: "1.0.0",
             description:
-                "Backend API for tracking lorry check-ins, loading workflow, check-outs, and comments."
+                "Backend API for tracking collection check-ins, status workflow, check-outs, and comments."
         },
 
         servers: [
@@ -19,80 +19,85 @@ const options = {
 
         tags: [
             {
-                name: "Lorries",
-                description: "Lorry tracking and status management"
+                name: "Collections",
+                description: "Collection tracking and status management"
             },
             {
                 name: "Comments",
-                description: "Comments on lorry status history"
+                description: "Comments on collection status history"
             }
         ],
 
         paths: {
-            /* ========================= LORRIES ========================= */
+            /* ========================= COLLECTIONS ========================= */
 
-            "/lorries": {
+            "/collections": {
                 get: {
-                    tags: ["Lorries"],
-                    summary: "Get all lorries",
+                    tags: ["Collections"],
+                    summary: "Get all collections",
                     responses: {
                         200: {
-                            description: "List of all lorries",
+                            description: "List of all collections",
                             content: {
                                 "application/json": {
                                     schema: {
                                         type: "array",
-                                        items: { $ref: "#/components/schemas/Lorry" }
+                                        items: { $ref: "#/components/schemas/Collection" }
                                     }
                                 }
                             }
                         }
                     }
-                }
-            },
-
-            "/lorries/add-lorry": {
+                },
                 post: {
-                    tags: ["Lorries"],
-                    summary: "Add a new lorry",
+                    tags: ["Collections"],
+                    summary: "Add a new collection",
                     requestBody: {
                         required: true,
                         content: {
                             "application/json": {
-                                schema: { $ref: "#/components/schemas/CreateLorryRequest" }
+                                schema: { $ref: "#/components/schemas/CreateCollectionRequest" }
                             }
                         }
                     },
                     responses: {
-                        200: { description: "Lorry added successfully" },
+                        201: { description: "Collection created" },
                         400: { description: "Missing required fields" }
                     }
                 }
             },
 
-            "/lorries/{id}": {
+            "/collections/{collectionId}": {
                 get: {
-                    tags: ["Lorries"],
-                    summary: "Get lorry by ID",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
+                    tags: ["Collections"],
+                    summary: "Get collection by ID",
+                    parameters: [{ $ref: "#/components/parameters/CollectionId" }],
                     responses: {
                         200: {
                             content: {
                                 "application/json": {
-                                    schema: { $ref: "#/components/schemas/Lorry" }
+                                    schema: { $ref: "#/components/schemas/Collection" }
                                 }
                             }
                         },
-                        404: { description: "Lorry not found" }
+                        404: { description: "Collection not found" }
+                    }
+                },
+                delete: {
+                    tags: ["Collections"],
+                    summary: "Delete a collection",
+                    parameters: [{ $ref: "#/components/parameters/CollectionId" }],
+                    responses: {
+                        200: { description: "Collection deleted" }
                     }
                 }
             },
 
-            "/lorries/{id}/history": {
+            "/collections/{collectionId}/history": {
                 get: {
-                    tags: ["Lorries"],
-                    summary: "Get lorry status history",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
+                    tags: ["Collections"],
+                    summary: "Get collection status history",
+                    parameters: [{ $ref: "#/components/parameters/CollectionId" }],
                     responses: {
                         200: {
                             content: {
@@ -108,111 +113,11 @@ const options = {
                 }
             },
 
-            "/lorries/{id}/update-registration-number": {
-                put: {
-                    tags: ["Lorries"],
-                    summary: "Update registration number",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            "application/json": {
-                                schema: {
-                                    type: "object",
-                                    required: ["regNum"],
-                                    properties: {
-                                        regNum: { type: "string", example: "lm12abc" }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    responses: {
-                        200: { description: "Registration number updated" }
-                    }
-                }
-            },
-
-            "/lorries/{id}/update-material-name": {
-                put: {
-                    tags: ["Lorries"],
-                    summary: "Update material name",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            "application/json": {
-                                schema: {
-                                    type: "object",
-                                    required: ["materialName"],
-                                    properties: {
-                                        materialName: { type: "string", example: "PET_CLEAR" }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    responses: {
-                        200: { description: "Material name updated" }
-                    }
-                }
-            },
-
-            "/lorries/{id}/update-customer-name": {
-                put: {
-                    tags: ["Lorries"],
-                    summary: "Update customer name",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            "application/json": {
-                                schema: {
-                                    type: "object",
-                                    required: ["customerName"],
-                                    properties: {
-                                        customerName: { type: "string", example: "MRL" }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    responses: {
-                        200: { description: "Customer name updated" }
-                    }
-                }
-            },
-
-            "/lorries/{id}/update-collection-reference-number": {
-                put: {
-                    tags: ["Lorries"],
-                    summary: "Update collection reference number",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
-                    requestBody: {
-                        required: true,
-                        content: {
-                            "application/json": {
-                                schema: {
-                                    type: "object",
-                                    required: ["collectionRefNum"],
-                                    properties: {
-                                        collectionRefNum: { type: "string", example: "ab456xy" }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    responses: {
-                        200: { description: "Collection reference updated" }
-                    }
-                }
-            },
-
-            "/lorries/{id}/update-status": {
-                put: {
-                    tags: ["Lorries"],
-                    summary: "Update lorry status",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
+            "/collections/{collectionId}/status": {
+                patch: {
+                    tags: ["Collections"],
+                    summary: "Update collection status",
+                    parameters: [{ $ref: "#/components/parameters/CollectionId" }],
                     requestBody: {
                         required: true,
                         content: {
@@ -223,31 +128,26 @@ const options = {
                     },
                     responses: {
                         200: { description: "Status updated" },
+                        400: { description: "Invalid status" },
                         409: { description: "Status already applied" }
-                    }
-                }
-            },
-
-            "/lorries/{id}/delete": {
-                delete: {
-                    tags: ["Lorries"],
-                    summary: "Delete a lorry",
-                    parameters: [{ $ref: "#/components/parameters/LorryId" }],
-                    responses: {
-                        200: { description: "Lorry deleted" }
                     }
                 }
             },
 
             /* ========================= COMMENTS ========================= */
 
-            "/comments/{lorryId}/{status}": {
+            "/comments/collection/{collectionId}/status/{status}": {
                 post: {
                     tags: ["Comments"],
-                    summary: "Add a comment to a lorry status",
+                    summary: "Add comment to a collection status",
                     parameters: [
-                        { name: "lorryId", in: "path", required: true },
-                        { name: "status", in: "path", required: true }
+                        { $ref: "#/components/parameters/CollectionId" },
+                        {
+                            name: "status",
+                            in: "path",
+                            required: true,
+                            schema: { $ref: "#/components/schemas/CollectionStatus" }
+                        }
                     ],
                     requestBody: {
                         required: true,
@@ -258,15 +158,20 @@ const options = {
                         }
                     },
                     responses: {
-                        200: { description: "Comment added successfully" }
+                        201: { description: "Comment added" }
                     }
                 },
                 get: {
                     tags: ["Comments"],
-                    summary: "Get all comments for a lorry status",
+                    summary: "Get comments for a collection status",
                     parameters: [
-                        { name: "lorryId", in: "path", required: true },
-                        { name: "status", in: "path", required: true }
+                        { $ref: "#/components/parameters/CollectionId" },
+                        {
+                            name: "status",
+                            in: "path",
+                            required: true,
+                            schema: { $ref: "#/components/schemas/CollectionStatus" }
+                        }
                     ],
                     responses: {
                         200: {
@@ -287,7 +192,7 @@ const options = {
                 get: {
                     tags: ["Comments"],
                     summary: "Get a single comment",
-                    parameters: [{ name: "commentId", in: "path", required: true }],
+                    parameters: [{ $ref: "#/components/parameters/CommentId" }],
                     responses: {
                         200: {
                             content: {
@@ -295,12 +200,14 @@ const options = {
                                     schema: { $ref: "#/components/schemas/Comment" }
                                 }
                             }
-                        }
+                        },
+                        404: { description: "Comment not found" }
                     }
                 },
-                put: {
+                patch: {
                     tags: ["Comments"],
                     summary: "Update a comment",
+                    parameters: [{ $ref: "#/components/parameters/CommentId" }],
                     requestBody: {
                         required: true,
                         content: {
@@ -310,14 +217,15 @@ const options = {
                         }
                     },
                     responses: {
-                        200: { description: "Comment updated successfully" }
+                        200: { description: "Comment updated" }
                     }
                 },
                 delete: {
                     tags: ["Comments"],
                     summary: "Delete a comment",
+                    parameters: [{ $ref: "#/components/parameters/CommentId" }],
                     responses: {
-                        200: { description: "Comment deleted successfully" }
+                        200: { description: "Comment deleted" }
                     }
                 }
             }
@@ -325,11 +233,17 @@ const options = {
 
         components: {
             parameters: {
-                LorryId: {
-                    name: "id",
+                CollectionId: {
+                    name: "collectionId",
                     in: "path",
                     required: true,
                     schema: { type: "string", example: "1" }
+                },
+                CommentId: {
+                    name: "commentId",
+                    in: "path",
+                    required: true,
+                    schema: { type: "string", example: "c-1700000000000" }
                 }
             },
 
@@ -337,28 +251,19 @@ const options = {
                 Comment: {
                     type: "object",
                     properties: {
-                        id: { type: "string", example: "c-1700000000000" },
-                        userId: { type: "string", example: "u-002" },
-                        text: { type: "string", example: "Loading started" },
-                        timestamp: {
-                            type: "string",
-                            format: "date-time",
-                            example: "2025-12-27T09:11:00Z"
-                        }
+                        id: { type: "string" },
+                        userId: { type: "string" },
+                        text: { type: "string" },
+                        timestamp: { type: "string", format: "date-time" }
                     }
                 },
 
                 StatusHistoryItem: {
                     type: "object",
                     properties: {
-                        status: { $ref: "#/components/schemas/LorryStatus" },
+                        status: { $ref: "#/components/schemas/CollectionStatus" },
                         timestamp: { type: "string", format: "date-time" },
-                        updatedBy: {
-                            type: "object",
-                            properties: {
-                                userId: { type: "string", example: "u-003" }
-                            }
-                        },
+                        updatedByUserId: { type: "string" },
                         comments: {
                             type: "array",
                             items: { $ref: "#/components/schemas/Comment" }
@@ -366,20 +271,17 @@ const options = {
                     }
                 },
 
-                Lorry: {
+                Collection: {
                     type: "object",
                     properties: {
-                        lorryId: { type: "string", example: "1" },
-                        regNum: { type: "string", example: "pz65pwo" },
-                        materialName: { type: "string", example: "PET_CLEAR" },
-                        customerName: { type: "string", example: "MRL" },
-                        collectionRefNum: { type: "string", example: "vg123sd" },
+                        id: { type: "string" },
+                        materialName: { type: "string" },
+                        customerName: { type: "string" },
+                        collectionRefNum: { type: "string" },
+                        lorryRegNum: { type: "string" },
                         checkedInAt: { type: "string", format: "date-time" },
-                        checkedOutAt: {
-                            type: ["string", "null"],
-                            format: "date-time"
-                        },
-                        currentStatus: { $ref: "#/components/schemas/LorryStatus" },
+                        checkedOutAt: { type: ["string", "null"], format: "date-time" },
+                        currentStatus: { $ref: "#/components/schemas/CollectionStatus" },
                         statusHistory: {
                             type: "array",
                             items: { $ref: "#/components/schemas/StatusHistoryItem" }
@@ -387,54 +289,45 @@ const options = {
                     }
                 },
 
-                LorryStatus: {
+                CollectionStatus: {
                     type: "string",
                     enum: ["CHECKED_IN", "LOADING", "LOADED", "CHECKED_OUT"]
                 },
 
-                CreateLorryRequest: {
+                CreateCollectionRequest: {
                     type: "object",
-                    required: ["materialName", "customerName", "collectionRefNum", "updatedBy"],
+                    required: [
+                        "materialName",
+                        "customerName",
+                        "collectionRefNum",
+                        "updatedByUserId"
+                    ],
                     properties: {
                         materialName: { type: "string" },
                         customerName: { type: "string" },
                         collectionRefNum: { type: "string" },
-                        updatedBy: {
-                            type: "object",
-                            properties: {
-                                userId: { type: "string", example: "u-002" }
-                            }
-                        }
+                        lorryRegNum: { type: "string" },
+                        updatedByUserId: { type: "string" },
+                        comment: { type: "string" }
                     }
                 },
 
                 UpdateStatusRequest: {
                     type: "object",
-                    required: ["status", "updatedBy"],
+                    required: ["status", "updatedByUserId"],
                     properties: {
-                        status: { $ref: "#/components/schemas/LorryStatus" },
-                        updatedBy: {
-                            type: "object",
-                            properties: {
-                                userId: { type: "string", example: "u-002" }
-                            }
-                        },
+                        status: { $ref: "#/components/schemas/CollectionStatus" },
+                        updatedByUserId: { type: "string" },
                         comment: { type: "string" }
                     }
                 },
 
                 CreateCommentRequest: {
                     type: "object",
-                    required: ["newComment"],
+                    required: ["userId", "text"],
                     properties: {
-                        newComment: {
-                            type: "object",
-                            required: ["userId", "text"],
-                            properties: {
-                                userId: { type: "string", example: "u-002" },
-                                text: { type: "string", example: "All good" }
-                            }
-                        }
+                        userId: { type: "string" },
+                        text: { type: "string" }
                     }
                 },
 
@@ -442,7 +335,7 @@ const options = {
                     type: "object",
                     required: ["text"],
                     properties: {
-                        text: { type: "string", example: "Updated comment text" }
+                        text: { type: "string" }
                     }
                 }
             }

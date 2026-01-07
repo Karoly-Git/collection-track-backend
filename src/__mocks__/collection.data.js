@@ -1,8 +1,8 @@
-const COLLECTION_STATUSES = require("../constants/collection-statuses");
-const MATERIAL_NAMES = require("../constants/material-names");
-const CUSTOMER_NAMES = require("../constants/customer-names");
+import COLLECTION_STATUSES from "../constants/collection-statuses.js";
+import MATERIAL_NAMES from "../constants/material-names.js";
+import CUSTOMER_NAMES from "../constants/customer-names.js";
 
-export const data = [
+const data = [
     {
         id: "1",
         materialName: MATERIAL_NAMES.MIXED_PAPER_GR1,
@@ -243,3 +243,4 @@ export const data = [
     }
 ];
 
+export default data;

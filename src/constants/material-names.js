@@ -18,4 +18,5 @@ const MATERIAL_NAMES = {
     GLASS: "Glass"
 };
 
-module.exports = MATERIAL_NAMES;
+export default MATERIAL_NAMES;
+

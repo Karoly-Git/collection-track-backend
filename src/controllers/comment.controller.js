@@ -1,5 +1,5 @@
-const data = require("../__mocks__/collection.data");
-const COLLECTION_STATUSES = require("../constants/collection-statuses");
+import data from "../__mocks__/collection.data.js";
+import COLLECTION_STATUSES from "../constants/collection-statuses.js";
 
 /**
  * ─────────────────────────────────────────────────────────────
@@ -137,7 +137,7 @@ export const getSingleComment = (req, res) => {
  * Update a comment
  */
 export const updateComment = (req, res) => {
-    if (validateRequiredFields(req, res, ["commentId"])) return;
+    if (validateRequiredFields(req, res, ["commentId", "text"])) return;
 
     const { commentId } = req.params;
     const { text } = req.body;

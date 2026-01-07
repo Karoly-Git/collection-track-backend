@@ -1,5 +1,5 @@
-const data = require("../__mocks__/collection.data");
-const COLLECTION_STATUSES = require("../constants/collection-statuses");
+import data from "../__mocks__/collection.data.js";
+import COLLECTION_STATUSES from "../constants/collection-statuses.js";
 
 /**
  * ─────────────────────────────────────────────────────────────
@@ -12,6 +12,12 @@ const COLLECTION_STATUSES = require("../constants/collection-statuses");
  */
 const findCollectionById = (collectionId) =>
     data.find(c => c.id === collectionId) || null;
+
+/**
+ * Status validator
+ */
+const isValidStatus = (status) =>
+    Object.values(COLLECTION_STATUSES).includes(status);
 
 /**
  * Validate required fields (params + body)
@@ -183,7 +189,7 @@ export const updateCollectionStatus = (req, res) => {
     const { collectionId } = req.params;
     const { status, updatedByUserId, comment } = req.body;
 
-    if (!Object.values(COLLECTION_STATUSES).includes(status)) {
+    if (!isValidStatus(status)) {
         return res.status(400).json({ message: "Invalid status value" });
     }
 
@@ -244,4 +250,3 @@ export const deleteCollection = (req, res) => {
     data.splice(index, 1);
     return res.status(200).json({ message: "Collection deleted" });
 };
-
