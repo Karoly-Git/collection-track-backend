@@ -11,10 +11,10 @@ import {
 const router = express.Router();
 
 // Create
-router.post("/collection/:collectionId/status/:status", addComment);
+router.post("/collection/:collectionId/status/:statusKey/comment", addComment);
 
 // Read
-router.get("/collection/:collectionId/status/:status", getAllComments);
+router.get("/collection/:collectionId/status/:statusKey", getAllComments);
 router.get("/:commentId", getSingleComment);
 
 // Update

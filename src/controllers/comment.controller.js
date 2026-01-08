@@ -57,12 +57,12 @@ const validateRequiredFields = (req, res, requiredKeys = []) => {
  * Add comment to a collection status
  */
 export const addComment = (req, res) => {
-    if (validateRequiredFields(req, res, ["collectionId", "status", "userId", "text"])) return;
+    if (validateRequiredFields(req, res, ["collectionId", "statusKey", "userId", "comment"])) return;
 
-    const { collectionId, status } = req.params;
-    const { userId, text } = req.body;
+    const { collectionId, statusKey } = req.params;
+    const { userId, comment } = req.body;
 
-    if (!Object.values(COLLECTION_STATUSES).includes(status)) {
+    if (!Object.values(COLLECTION_STATUSES).includes(statusKey)) {
         return res.status(400).json({ message: "Invalid status value" });
     }
 
@@ -71,17 +71,17 @@ export const addComment = (req, res) => {
         return res.status(404).json({ message: `Collection with ID '${collectionId}' not found` });
     }
 
-    const statusEntry = collection.statusHistory.find(s => s.status === status);
+    const statusEntry = collection.statusHistory.find(s => s.status === statusKey);
     if (!statusEntry) {
         return res.status(404).json({
-            message: `Status '${status}' not found for collection with ID '${collectionId}'`
+            message: `Status '${statusKey}' not found for collection with ID '${collectionId}'`
         });
     }
 
     const newComment = {
         id: `c-${Date.now()}`,
         userId,
-        text,
+        comment,
         timestamp: new Date().toISOString()
     };
 
