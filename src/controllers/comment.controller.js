@@ -57,10 +57,10 @@ const validateRequiredFields = (req, res, requiredKeys = []) => {
  * Add comment to a collection status
  */
 export const addComment = (req, res) => {
-    if (validateRequiredFields(req, res, ["collectionId", "statusKey", "userId", "comment"])) return;
+    if (validateRequiredFields(req, res, ["collectionId", "statusKey", "userId", "text"])) return;
 
     const { collectionId, statusKey } = req.params;
-    const { userId, comment } = req.body;
+    const { userId, text } = req.body;
 
     if (!Object.values(COLLECTION_STATUSES).includes(statusKey)) {
         return res.status(400).json({ message: "Invalid status value" });
@@ -81,13 +81,13 @@ export const addComment = (req, res) => {
     const newComment = {
         id: `c-${Date.now()}`,
         userId,
-        comment,
+        text,
         timestamp: new Date().toISOString()
     };
 
     statusEntry.comments.push(newComment);
 
-    return res.status(201).json(newComment);
+    return res.status(201).json(collection);
 };
 
 /**
