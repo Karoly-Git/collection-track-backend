@@ -79,7 +79,7 @@ export const addComment = (req, res) => {
     }
 
     const newComment = {
-        id: `c-${Date.now()}`,
+        id: `${collectionId}-${statusKey}-c${statusEntry.comments.length + 1}`,
         userId,
         text,
         timestamp: new Date().toISOString()

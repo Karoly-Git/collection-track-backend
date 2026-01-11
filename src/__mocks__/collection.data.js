@@ -19,19 +19,19 @@ const data = [
                 updatedByUserId: "wb-001",
                 comments: [
                     {
-                        id: "a9f3k2m8",
+                        id: "1-" + COLLECTION_STATUSES.CHECKED_IN + "-c1",
                         userId: "wb-002",
                         text: "Lorry arrived on time.",
                         timestamp: "2025-12-27T08:41:00Z"
                     },
                     {
-                        id: "q7x2n9c4",
+                        id: "1-" + COLLECTION_STATUSES.CHECKED_IN + "-c2",
                         userId: "flt-003",
                         text: "I am FLT driver and Lorry driver punched me",
                         timestamp: "2025-12-27T08:55:00Z"
                     },
                     {
-                        id: "m8r5t2w9",
+                        id: "1-" + COLLECTION_STATUSES.CHECKED_IN + "-c3",
                         userId: "sv-004",
                         text: "I am Supervisor and punched the Lorry driver",
                         timestamp: "2025-12-27T08:55:00Z"
@@ -57,7 +57,7 @@ const data = [
                 updatedByUserId: "wb-002",
                 comments: [
                     {
-                        id: "z4k9x2b7",
+                        id: "2-" + COLLECTION_STATUSES.CHECKED_IN + "-c1",
                         userId: "u-002",
                         text: "Checked in at weighbridge.",
                         timestamp: "2025-12-27T08:56:00Z"
@@ -70,7 +70,7 @@ const data = [
                 updatedByUserId: "flt-1",
                 comments: [
                     {
-                        id: "n6c8p3v2",
+                        id: "2-" + COLLECTION_STATUSES.LOADING + "-c1",
                         userId: "u-003",
                         text: "Started loading PET clear.",
                         timestamp: "2025-12-27T09:11:00Z"
@@ -96,7 +96,7 @@ const data = [
                 updatedByUserId: "wb-001",
                 comments: [
                     {
-                        id: "b5x9r2k8",
+                        id: "3-" + + COLLECTION_STATUSES.CHECKED_IN + "-c1",
                         userId: "u-002",
                         text: "I have checked in the lorry.",
                         timestamp: "2025-12-27T07:51:00Z"
@@ -109,7 +109,7 @@ const data = [
                 updatedByUserId: "flt-2",
                 comments: [
                     {
-                        id: "t7m4n8c2",
+                        id: "3-" + COLLECTION_STATUSES.LOADING + "-c1",
                         userId: "u-003",
                         text: "I have started loading the lorry.",
                         timestamp: "2025-12-27T08:06:00Z"
@@ -122,7 +122,7 @@ const data = [
                 updatedByUserId: "flt-3",
                 comments: [
                     {
-                        id: "p3w9k6r4",
+                        id: "3-" + COLLECTION_STATUSES.LOADED + "-c1",
                         userId: "u-003",
                         text: "I have completed loading the lorry.",
                         timestamp: "2025-12-27T09:01:00Z"
@@ -148,7 +148,7 @@ const data = [
                 updatedByUserId: "wb-002",
                 comments: [
                     {
-                        id: "k2x9c5m8",
+                        id: "4-" + COLLECTION_STATUSES.CHECKED_IN + "-c1",
                         userId: "u-002",
                         text: "Glass lorry checked in.",
                         timestamp: "2025-12-27T06:46:00Z"
@@ -161,7 +161,7 @@ const data = [
                 updatedByUserId: "flt-1",
                 comments: [
                     {
-                        id: "r6n8b9t4",
+                        id: "4-" + COLLECTION_STATUSES.LOADING + "-c1",
                         userId: "u-004",
                         text: "Loading glass containers.",
                         timestamp: "2025-12-27T07:01:00Z"
@@ -174,7 +174,7 @@ const data = [
                 updatedByUserId: "flt-2",
                 comments: [
                     {
-                        id: "m4k8p7x2",
+                        id: "4-" + COLLECTION_STATUSES.LOADED + "-c1",
                         userId: "u-004",
                         text: "Glass fully loaded.",
                         timestamp: "2025-12-27T07:56:00Z"
@@ -187,7 +187,7 @@ const data = [
                 updatedByUserId: "wb-001",
                 comments: [
                     {
-                        id: "v9c2w6r8",
+                        id: "4-" + COLLECTION_STATUSES.CHECKED_OUT + "-c1",
                         userId: "u-002",
                         text: "Lorry checked out.",
                         timestamp: "2025-12-27T08:31:00Z"
@@ -213,7 +213,7 @@ const data = [
                 updatedByUserId: "wb-002",
                 comments: [
                     {
-                        id: "x7m2k8b4",
+                        id: "5-" + COLLECTION_STATUSES.CHECKED_IN + "-c1",
                         userId: "u-002",
                         text: "Metal lorry checked in.",
                         timestamp: "2025-12-27T09:21:00Z"
