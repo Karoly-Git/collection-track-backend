@@ -21,6 +21,7 @@
   "description": "Backend API for the collection tracking system, managing vehicle check-ins, loading workflows, check-outs, data persistence, and secure access for real-time status visibility.",
   "dependencies": {
     "cors": "^2.8.5",
+    "crypto": "^1.0.1",
     "dotenv": "^17.2.3",
     "express": "^5.2.1",
     "swagger-jsdoc": "^6.2.8",
