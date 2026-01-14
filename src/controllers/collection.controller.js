@@ -180,21 +180,21 @@ export const updateLorryRegNum = updateCollectionField("lorryRegNum");
  */
 export const updateCollectionStatus = (req, res) => {
     const { collectionId } = req.params;
-    const { status, updatedByUserId, comment } = req.body;
+    const { newStatus, updatedByUserId, comment } = req.body;
 
     //console.log(collectionId, "|", status, "|", updatedByUserId, "|", comment);
 
     if (
         validateRequiredFields(req, res, [
-            "collectionId",         // required param
-            "status",               // required body field
-            "updatedByUserId",      // required body field
-            //"comment"             // optional body field   
+            "collectionId",             // required param
+            "newStatus",                // required body field
+            "updatedByUserId",          // required body field
+            //"comment"                 // optional body field   
         ])
     ) return;
 
 
-    if (!isValidStatus(status)) {
+    if (!isValidStatus(newStatus)) {
         return res.status(400).json({ message: "Invalid status value" });
     }
 
@@ -205,21 +205,21 @@ export const updateCollectionStatus = (req, res) => {
         });
     }
 
-    if (collection.currentStatus === status) {
+    if (collection.currentStatus === newStatus) {
         return res.status(409).json({
-            message: `Status '${status}' already applied`
+            message: `Status '${newStatus}' already applied`
         });
     }
 
     const timestamp = new Date().toISOString();
-    collection.currentStatus = status;
+    collection.currentStatus = newStatus;
 
-    if (status === COLLECTION_STATUSES.CHECKED_OUT) {
+    if (newStatus === COLLECTION_STATUSES.CHECKED_OUT) {
         collection.checkedOutAt = timestamp;
     }
 
     collection.statusHistory.push({
-        status,
+        newStatus,
         timestamp,
         updatedByUserId,
         comments: comment

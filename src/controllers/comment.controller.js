@@ -79,7 +79,7 @@ export const addComment = (req, res) => {
     }
 
     const newComment = {
-        id: `${collectionId}-${statusKey}-c${statusEntry.comments.length + 1}`,
+        id: crypto.randomUUID(),
         userId,
         text,
         timestamp: new Date().toISOString()
@@ -87,7 +87,7 @@ export const addComment = (req, res) => {
 
     statusEntry.comments.push(newComment);
 
-    return res.status(201).json(collection);
+    return res.status(201).json(newComment);
 };
 
 /**
