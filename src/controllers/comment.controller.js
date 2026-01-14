@@ -87,7 +87,7 @@ export const addComment = (req, res) => {
 
     statusEntry.comments.push(newComment);
 
-    return res.status(201).json(newComment);
+    return res.status(201).json(collection);
 };
 
 /**
