@@ -74,7 +74,7 @@ export const addCollection = (req, res) => {
     } = req.body;
 
     const timestamp = new Date().toISOString();
-    const newId = String(data.length + 1);
+    const newId = String(data.length + 1) + new Date().getTime();
 
     const newCollection = {
         id: newId,
