@@ -219,7 +219,7 @@ export const updateCollectionStatus = (req, res) => {
     }
 
     collection.statusHistory.push({
-        newStatus,
+        status: newStatus,   // ✅ SAME KEY AS EVERYWHERE ELSE
         timestamp,
         updatedByUserId,
         comments: comment
