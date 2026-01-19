@@ -213,34 +213,8 @@ const data = [
             }
         ]
     },
-    {
-        id: "5",
-        materialName: MATERIAL_NAMES.STEEL_CANS,
-        customerName: CUSTOMER_NAMES.UN_GLOBAL,
-        collectionRefNum: "kl345mn",
-        lorryRegNum: "uv78jkl",
-        checkedInAt: withDate("09:20:00"),
-        checkedOutAt: null,
-        currentStatus: COLLECTION_STATUSES.CHECKED_IN,
-        statusHistory: [
-            {
-                status: COLLECTION_STATUSES.CHECKED_IN,
-                timestamp: withDate("09:20:00"),
-                updatedByUserId: "wb-002",
-                comments: [
-                    {
-                        id: "5-CHECKED_IN",
-                        userId: "u-002",
-                        text: "Metal lorry checked in.",
-                        timestamp: withDate("09:21:00")
-                    }
-                ]
-            }
-        ]
-    },
-
-    // 🔽 LAST 5 — automatically 1 day earlier
-    ...["6", "7", "8", "9", "10"].map((id) => ({
+    // LAST few — automatically 1 day earlier
+    ...["5", "6"].map((id) => ({
         id,
         materialName: MATERIAL_NAMES.MIXED_PAPER_GR1,
         customerName: CUSTOMER_NAMES.PEUTE,
