@@ -43,66 +43,41 @@ let idCounter = 1;
 
 const createCollection = ({
     status,
-    dayOffset = 0, // 0 = today, 1 = yesterday
+    dayOffset = 0 // 0 = today, 1 = yesterday
 }) => {
-    const checkedInAt =
+    const timestamp =
         dayOffset === 0
             ? minutesAgo(randomBetween(60, 240))
-            : minutesAgoWithDayOffset(1, randomBetween(60, 240));
+            : minutesAgoWithDayOffset(dayOffset, randomBetween(60, 240));
 
-    const loadingAt =
-        status !== COLLECTION_STATUSES.CHECKED_IN
-            ? dayOffset === 0
-                ? minutesAgo(randomBetween(30, 120))
-                : minutesAgoWithDayOffset(1, randomBetween(30, 120))
+    const checkedInAt =
+        status === COLLECTION_STATUSES.CHECKED_IN
+            ? timestamp
             : null;
 
-    const loadedAt =
-        status === COLLECTION_STATUSES.LOADED ||
-            status === COLLECTION_STATUSES.CHECKED_OUT
-            ? dayOffset === 0
-                ? minutesAgo(randomBetween(15, 60))
-                : minutesAgoWithDayOffset(1, randomBetween(15, 60))
+    const startedLoadingAt =
+        status === COLLECTION_STATUSES.LOADING
+            ? timestamp
+            : null;
+
+    const finishedLoadingAt =
+        status === COLLECTION_STATUSES.LOADED
+            ? timestamp
             : null;
 
     const checkedOutAt =
-        status === COLLECTION_STATUSES.CHECKED_OUT ? loadedAt : null;
+        status === COLLECTION_STATUSES.CHECKED_OUT
+            ? timestamp
+            : null;
 
     const statusHistory = [
         {
-            status: COLLECTION_STATUSES.CHECKED_IN,
-            timestamp: checkedInAt,
+            status,
+            timestamp,
             updatedByUserId: "wb-001",
             comments: []
         }
     ];
-
-    if (loadingAt) {
-        statusHistory.push({
-            status: COLLECTION_STATUSES.LOADING,
-            timestamp: loadingAt,
-            updatedByUserId: "flt-1",
-            comments: []
-        });
-    }
-
-    if (loadedAt && status !== COLLECTION_STATUSES.CHECKED_OUT) {
-        statusHistory.push({
-            status: COLLECTION_STATUSES.LOADED,
-            timestamp: loadedAt,
-            updatedByUserId: "flt-2",
-            comments: []
-        });
-    }
-
-    if (checkedOutAt) {
-        statusHistory.push({
-            status: COLLECTION_STATUSES.CHECKED_OUT,
-            timestamp: checkedOutAt,
-            updatedByUserId: "wb-002",
-            comments: []
-        });
-    }
 
     return {
         id: String(idCounter++),
@@ -113,6 +88,8 @@ const createCollection = ({
         collectionRefNum: `ref-${idCounter}-${dayOffset}`,
         lorryRegNum: `lr${randomBetween(10, 99)}abc`,
         checkedInAt,
+        startedLoadingAt,
+        finishedLoadingAt,
         checkedOutAt,
         currentStatus: status,
         statusHistory

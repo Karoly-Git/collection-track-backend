@@ -1,306 +1,614 @@
-import COLLECTION_STATUSES from "../constants/collection-statuses.js";
-import MATERIAL_NAMES from "../constants/material-names.js";
-import CUSTOMER_NAMES from "../constants/customer-names.js";
-
-/**
- * ─────────────────────────────────────────────
- * Time helpers
- * ─────────────────────────────────────────────
- */
-
-/**
- * ISO timestamp for "now minus N minutes"
- */
-const minutesAgo = (minutes) => {
-    const date = new Date();
-    date.setMinutes(date.getMinutes() - minutes);
-    return date.toISOString();
-};
-
-/**
- * ISO timestamp for "N days ago minus M minutes"
- */
-const minutesAgoWithDayOffset = (daysAgo, minutes) => {
-    const date = new Date();
-    date.setUTCDate(date.getUTCDate() - daysAgo);
-    date.setMinutes(date.getMinutes() - minutes);
-    return date.toISOString();
-};
-
-/**
- * Random integer between min & max (inclusive)
- */
-const randomBetween = (min, max) =>
-    Math.floor(Math.random() * (max - min + 1)) + min;
-
-/**
- * Buckets:
- *  - short  → 15–59 mins
- *  - medium → 60–119 mins
- *  - long   → 120–180 mins
- */
-const getCheckedInAtByBucket = (bucket) => {
-    switch (bucket) {
-        case "short":
-            return minutesAgo(randomBetween(15, 59));
-        case "medium":
-            return minutesAgo(randomBetween(60, 119));
-        case "long":
-            return minutesAgo(randomBetween(120, 180));
-        default:
-            throw new Error("Invalid time bucket");
+[
+    {
+        "id": "1",
+        "materialName": "Pet clear",
+        "customerName": "URM",
+        "collectionRefNum": "ref-2-0",
+        "lorryRegNum": "lr26abc",
+        "checkedInAt": "2026-01-21T15:46:11.793Z",
+        "checkedOutAt": null,
+        "currentStatus": "CHECKED_IN",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T15:46:11.793Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "2",
+        "materialName": "OCC",
+        "customerName": "Peute",
+        "collectionRefNum": "ref-3-0",
+        "lorryRegNum": "lr96abc",
+        "checkedInAt": "2026-01-21T18:30:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "CHECKED_IN",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T18:30:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "3",
+        "materialName": "Glass",
+        "customerName": "URM",
+        "collectionRefNum": "ref-4-0",
+        "lorryRegNum": "lr94abc",
+        "checkedInAt": "2026-01-21T16:31:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "CHECKED_IN",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T16:31:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "4",
+        "materialName": "Tetra",
+        "customerName": "Volker",
+        "collectionRefNum": "ref-5-0",
+        "lorryRegNum": "lr19abc",
+        "checkedInAt": "2026-01-21T16:09:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADING_IN_PROGRESS",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T16:09:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T19:16:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "5",
+        "materialName": "Mixed paper G1",
+        "customerName": "URM",
+        "collectionRefNum": "ref-6-0",
+        "lorryRegNum": "lr72abc",
+        "checkedInAt": "2026-01-21T17:19:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADING_IN_PROGRESS",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T17:19:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T18:55:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "6",
+        "materialName": "Mixed plastics",
+        "customerName": "Peute",
+        "collectionRefNum": "ref-7-0",
+        "lorryRegNum": "lr73abc",
+        "checkedInAt": "2026-01-21T16:12:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADING_IN_PROGRESS",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T16:12:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T18:07:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "7",
+        "materialName": "Mixed plastics",
+        "customerName": "URM",
+        "collectionRefNum": "ref-8-0",
+        "lorryRegNum": "lr11abc",
+        "checkedInAt": "2026-01-21T17:15:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADED",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T17:15:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T19:09:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "LOADED",
+                "timestamp": "2026-01-21T18:56:11.794Z",
+                "updatedByUserId": "flt-2",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "8",
+        "materialName": "Mixed paper G1",
+        "customerName": "URM",
+        "collectionRefNum": "ref-9-0",
+        "lorryRegNum": "lr98abc",
+        "checkedInAt": "2026-01-21T15:49:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADED",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T15:49:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T18:54:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "LOADED",
+                "timestamp": "2026-01-21T18:51:11.794Z",
+                "updatedByUserId": "flt-2",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "9",
+        "materialName": "N&P",
+        "customerName": "UN Global",
+        "collectionRefNum": "ref-10-0",
+        "lorryRegNum": "lr66abc",
+        "checkedInAt": "2026-01-21T18:11:11.794Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADED",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T18:11:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T18:25:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "LOADED",
+                "timestamp": "2026-01-21T19:20:11.794Z",
+                "updatedByUserId": "flt-2",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "10",
+        "materialName": "Mixed paper G2",
+        "customerName": "Volker",
+        "collectionRefNum": "ref-11-0",
+        "lorryRegNum": "lr17abc",
+        "checkedInAt": "2026-01-21T17:41:11.794Z",
+        "checkedOutAt": "2026-01-21T18:53:11.794Z",
+        "currentStatus": "CHECKED_OUT",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T17:41:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T18:07:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "CHECKED_OUT",
+                "timestamp": "2026-01-21T18:53:11.794Z",
+                "updatedByUserId": "wb-002",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "11",
+        "materialName": "Mixed paper G2",
+        "customerName": "URM",
+        "collectionRefNum": "ref-12-0",
+        "lorryRegNum": "lr84abc",
+        "checkedInAt": "2026-01-21T18:32:11.794Z",
+        "checkedOutAt": "2026-01-21T19:14:11.794Z",
+        "currentStatus": "CHECKED_OUT",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T18:32:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T18:58:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "CHECKED_OUT",
+                "timestamp": "2026-01-21T19:14:11.794Z",
+                "updatedByUserId": "wb-002",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "12",
+        "materialName": "Alu cans",
+        "customerName": "URM",
+        "collectionRefNum": "ref-13-0",
+        "lorryRegNum": "lr79abc",
+        "checkedInAt": "2026-01-21T16:06:11.794Z",
+        "checkedOutAt": "2026-01-21T19:16:11.794Z",
+        "currentStatus": "CHECKED_OUT",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-21T16:06:11.794Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-21T18:11:11.794Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "CHECKED_OUT",
+                "timestamp": "2026-01-21T19:16:11.794Z",
+                "updatedByUserId": "wb-002",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "13",
+        "materialName": "Pet color",
+        "customerName": "URM",
+        "collectionRefNum": "ref-14-1",
+        "lorryRegNum": "lr83abc",
+        "checkedInAt": "2026-01-20T16:51:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "CHECKED_IN",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T16:51:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "14",
+        "materialName": "Alu cans",
+        "customerName": "Volker",
+        "collectionRefNum": "ref-15-1",
+        "lorryRegNum": "lr35abc",
+        "checkedInAt": "2026-01-20T18:15:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "CHECKED_IN",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T18:15:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "15",
+        "materialName": "Alu cans",
+        "customerName": "URM",
+        "collectionRefNum": "ref-16-1",
+        "lorryRegNum": "lr78abc",
+        "checkedInAt": "2026-01-20T17:13:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "CHECKED_IN",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T17:13:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "16",
+        "materialName": "Pet clear",
+        "customerName": "MRL",
+        "collectionRefNum": "ref-17-1",
+        "lorryRegNum": "lr94abc",
+        "checkedInAt": "2026-01-20T18:46:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADING_IN_PROGRESS",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T18:46:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T18:48:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "17",
+        "materialName": "Mixed paper G1",
+        "customerName": "URM",
+        "collectionRefNum": "ref-18-1",
+        "lorryRegNum": "lr51abc",
+        "checkedInAt": "2026-01-20T18:17:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADING_IN_PROGRESS",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T18:17:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T17:50:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "18",
+        "materialName": "Tetra",
+        "customerName": "UN Global",
+        "collectionRefNum": "ref-19-1",
+        "lorryRegNum": "lr78abc",
+        "checkedInAt": "2026-01-20T17:10:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADING_IN_PROGRESS",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T17:10:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T18:22:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "19",
+        "materialName": "Pet color",
+        "customerName": "URM",
+        "collectionRefNum": "ref-20-1",
+        "lorryRegNum": "lr10abc",
+        "checkedInAt": "2026-01-20T18:34:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADED",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T18:34:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T18:23:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "LOADED",
+                "timestamp": "2026-01-20T19:05:11.795Z",
+                "updatedByUserId": "flt-2",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "20",
+        "materialName": "Mixed paper G2",
+        "customerName": "MRL",
+        "collectionRefNum": "ref-21-1",
+        "lorryRegNum": "lr81abc",
+        "checkedInAt": "2026-01-20T17:33:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADED",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T17:33:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T17:49:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "LOADED",
+                "timestamp": "2026-01-20T19:04:11.795Z",
+                "updatedByUserId": "flt-2",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "21",
+        "materialName": "Steel cans",
+        "customerName": "URM",
+        "collectionRefNum": "ref-22-1",
+        "lorryRegNum": "lr67abc",
+        "checkedInAt": "2026-01-20T18:40:11.795Z",
+        "checkedOutAt": null,
+        "currentStatus": "LOADED",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T18:40:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T17:54:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "LOADED",
+                "timestamp": "2026-01-20T18:53:11.795Z",
+                "updatedByUserId": "flt-2",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "22",
+        "materialName": "Mixed paper G2",
+        "customerName": "MRL",
+        "collectionRefNum": "ref-23-1",
+        "lorryRegNum": "lr33abc",
+        "checkedInAt": "2026-01-20T16:24:11.795Z",
+        "checkedOutAt": "2026-01-20T19:14:11.795Z",
+        "currentStatus": "CHECKED_OUT",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T16:24:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T19:06:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "CHECKED_OUT",
+                "timestamp": "2026-01-20T19:14:11.795Z",
+                "updatedByUserId": "wb-002",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "23",
+        "materialName": "Steel cans",
+        "customerName": "URM",
+        "collectionRefNum": "ref-24-1",
+        "lorryRegNum": "lr72abc",
+        "checkedInAt": "2026-01-20T17:36:11.795Z",
+        "checkedOutAt": "2026-01-20T18:53:11.795Z",
+        "currentStatus": "CHECKED_OUT",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T17:36:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T18:08:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "CHECKED_OUT",
+                "timestamp": "2026-01-20T18:53:11.795Z",
+                "updatedByUserId": "wb-002",
+                "comments": []
+            }
+        ]
+    },
+    {
+        "id": "24",
+        "materialName": "N&P",
+        "customerName": "URM",
+        "collectionRefNum": "ref-25-1",
+        "lorryRegNum": "lr64abc",
+        "checkedInAt": "2026-01-20T15:58:11.795Z",
+        "checkedOutAt": "2026-01-20T18:55:11.795Z",
+        "currentStatus": "CHECKED_OUT",
+        "statusHistory": [
+            {
+                "status": "CHECKED_IN",
+                "timestamp": "2026-01-20T15:58:11.795Z",
+                "updatedByUserId": "wb-001",
+                "comments": []
+            },
+            {
+                "status": "LOADING_IN_PROGRESS",
+                "timestamp": "2026-01-20T18:49:11.795Z",
+                "updatedByUserId": "flt-1",
+                "comments": []
+            },
+            {
+                "status": "CHECKED_OUT",
+                "timestamp": "2026-01-20T18:55:11.795Z",
+                "updatedByUserId": "wb-002",
+                "comments": []
+            }
+        ]
     }
-};
-
-/**
- * Same buckets, but 1 day ago
- */
-const getCheckedInAtByBucketYesterday = (bucket) => {
-    switch (bucket) {
-        case "short":
-            return minutesAgoWithDayOffset(1, randomBetween(15, 59));
-        case "medium":
-            return minutesAgoWithDayOffset(1, randomBetween(60, 119));
-        case "long":
-            return minutesAgoWithDayOffset(1, randomBetween(120, 180));
-        default:
-            throw new Error("Invalid time bucket");
-    }
-};
-
-/**
- * ─────────────────────────────────────────────
- * Mock collections
- * ─────────────────────────────────────────────
- */
-
-const data = [
-    /* ───────────── TODAY ───────────── */
-
-    (() => {
-        const checkedInAt = getCheckedInAtByBucket("short");
-        return {
-            id: "1",
-            materialName: MATERIAL_NAMES.MIXED_PAPER_GR1,
-            customerName: CUSTOMER_NAMES.PEUTE,
-            collectionRefNum: "peute-1234",
-            lorryRegNum: "pz65pwo",
-            checkedInAt,
-            checkedOutAt: null,
-            currentStatus: COLLECTION_STATUSES.CHECKED_IN,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-001",
-                    comments: []
-                }
-            ]
-        };
-    })(),
-
-    (() => {
-        const checkedInAt = getCheckedInAtByBucket("medium");
-        const loadingAt = minutesAgo(40);
-
-        return {
-            id: "2",
-            materialName: MATERIAL_NAMES.PET_CLEAR,
-            customerName: CUSTOMER_NAMES.MRL,
-            collectionRefNum: "ab456xy",
-            lorryRegNum: "lm12abc",
-            checkedInAt,
-            checkedOutAt: null,
-            currentStatus: COLLECTION_STATUSES.LOADING,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-002",
-                    comments: []
-                },
-                {
-                    status: COLLECTION_STATUSES.LOADING,
-                    timestamp: loadingAt,
-                    updatedByUserId: "flt-1",
-                    comments: []
-                }
-            ]
-        };
-    })(),
-
-    (() => {
-        const checkedInAt = getCheckedInAtByBucket("long");
-        const loadingAt = minutesAgo(90);
-        const loadedAt = minutesAgo(30);
-
-        return {
-            id: "3",
-            materialName: MATERIAL_NAMES.HDPE_NATURAL,
-            customerName: CUSTOMER_NAMES.VOLKER,
-            collectionRefNum: "vl1234",
-            lorryRegNum: "qr34def",
-            checkedInAt,
-            checkedOutAt: null,
-            currentStatus: COLLECTION_STATUSES.LOADED,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-001",
-                    comments: []
-                },
-                {
-                    status: COLLECTION_STATUSES.LOADING,
-                    timestamp: loadingAt,
-                    updatedByUserId: "flt-2",
-                    comments: []
-                },
-                {
-                    status: COLLECTION_STATUSES.LOADED,
-                    timestamp: loadedAt,
-                    updatedByUserId: "flt-3",
-                    comments: []
-                }
-            ]
-        };
-    })(),
-
-    (() => {
-        const checkedInAt = minutesAgo(150);
-        const checkedOutAt = minutesAgo(20);
-
-        return {
-            id: "4",
-            materialName: MATERIAL_NAMES.GLASS,
-            customerName: CUSTOMER_NAMES.URM,
-            collectionRefNum: "gh012ij",
-            lorryRegNum: "st56ghi",
-            checkedInAt,
-            checkedOutAt,
-            currentStatus: COLLECTION_STATUSES.CHECKED_OUT,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-002",
-                    comments: []
-                },
-                {
-                    status: COLLECTION_STATUSES.CHECKED_OUT,
-                    timestamp: checkedOutAt,
-                    updatedByUserId: "wb-001",
-                    comments: []
-                }
-            ]
-        };
-    })(),
-
-    /* ───────────── YESTERDAY ───────────── */
-
-    (() => {
-        const checkedInAt = getCheckedInAtByBucketYesterday("short");
-        return {
-            id: "5",
-            materialName: MATERIAL_NAMES.MIXED_PAPER_GR1,
-            customerName: CUSTOMER_NAMES.PEUTE,
-            collectionRefNum: "y-peute-01",
-            lorryRegNum: "aa11bbb",
-            checkedInAt,
-            checkedOutAt: null,
-            currentStatus: COLLECTION_STATUSES.CHECKED_IN,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-003",
-                    comments: []
-                }
-            ]
-        };
-    })(),
-
-    (() => {
-        const checkedInAt = getCheckedInAtByBucketYesterday("medium");
-        const loadedAt = minutesAgoWithDayOffset(1, 30);
-
-        return {
-            id: "6",
-            materialName: MATERIAL_NAMES.PET_CLEAR,
-            customerName: CUSTOMER_NAMES.MRL,
-            collectionRefNum: "y-mrl-02",
-            lorryRegNum: "cc22ddd",
-            checkedInAt,
-            checkedOutAt: loadedAt,
-            currentStatus: COLLECTION_STATUSES.CHECKED_OUT,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-004",
-                    comments: []
-                },
-                {
-                    status: COLLECTION_STATUSES.CHECKED_OUT,
-                    timestamp: loadedAt,
-                    updatedByUserId: "wb-004",
-                    comments: []
-                }
-            ]
-        };
-    })(),
-
-    (() => {
-        const checkedInAt = getCheckedInAtByBucketYesterday("long");
-        const loadedAt = minutesAgoWithDayOffset(1, 10);
-
-        return {
-            id: "7",
-            materialName: MATERIAL_NAMES.HDPE_NATURAL,
-            customerName: CUSTOMER_NAMES.VOLKER,
-            collectionRefNum: "y-volker-03",
-            lorryRegNum: "ee33fff",
-            checkedInAt,
-            checkedOutAt: loadedAt,
-            currentStatus: COLLECTION_STATUSES.CHECKED_OUT,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-005",
-                    comments: []
-                },
-                {
-                    status: COLLECTION_STATUSES.CHECKED_OUT,
-                    timestamp: loadedAt,
-                    updatedByUserId: "wb-005",
-                    comments: []
-                }
-            ]
-        };
-    })(),
-
-    (() => {
-        const checkedInAt = minutesAgoWithDayOffset(1, 180);
-        return {
-            id: "8",
-            materialName: MATERIAL_NAMES.GLASS,
-            customerName: CUSTOMER_NAMES.URM,
-            collectionRefNum: "y-urm-04",
-            lorryRegNum: "gg44hhh",
-            checkedInAt,
-            checkedOutAt: null,
-            currentStatus: COLLECTION_STATUSES.CHECKED_IN,
-            statusHistory: [
-                {
-                    status: COLLECTION_STATUSES.CHECKED_IN,
-                    timestamp: checkedInAt,
-                    updatedByUserId: "wb-006",
-                    comments: []
-                }
-            ]
-        };
-    })()
-];
-
-export default data;
+]

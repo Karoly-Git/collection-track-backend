@@ -180,7 +180,7 @@ export const updateLorryRegNum = updateCollectionField("lorryRegNum");
  */
 export const updateCollectionStatus = (req, res) => {
     const { collectionId } = req.params;
-    const { newStatus, updatedByUserId, comment } = req.body;
+    const { newStatus, updatedByUserId, comment, timestamp } = req.body;
 
     //console.log(collectionId, "|", status, "|", updatedByUserId, "|", comment);
 
@@ -190,6 +190,7 @@ export const updateCollectionStatus = (req, res) => {
             "newStatus",                // required body field
             "updatedByUserId",          // required body field
             //"comment"                 // optional body field   
+            "timestamp"
         ])
     ) return;
 
@@ -211,21 +212,32 @@ export const updateCollectionStatus = (req, res) => {
         });
     }
 
-    const timestamp = new Date().toISOString();
+    console.log(newStatus);
+
     collection.currentStatus = newStatus;
 
-    if (newStatus === COLLECTION_STATUSES.CHECKED_OUT) {
-        collection.checkedOutAt = timestamp;
-    }
+    switch (newStatus) {
+        case COLLECTION_STATUSES.LOADING:
+            collection.startedLoadingAt = timestamp;
+            break;
+        case COLLECTION_STATUSES.LOADED:
+            collection.finishedLoadingAt = timestamp;
+            break;
+        case COLLECTION_STATUSES.CHECKED_OUT:
+            collection.checkedOutAt = timestamp;
+            break;
+        default:
+            break;
+    };
 
     collection.statusHistory.push({
-        status: newStatus,   // ✅ SAME KEY AS EVERYWHERE ELSE
+        status: newStatus,
         timestamp,
         updatedByUserId,
         comments: comment
             ? [
                 {
-                    id: `c-${Date.now()}`,
+                    id: `comment-${timestamp}`,
                     userId: updatedByUserId,
                     text: comment,
                     timestamp
